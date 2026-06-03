@@ -65,9 +65,110 @@ Create routing structure with react-router-dom:
 
 ## PROGRAM
 
+```
+main.jsx:
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './BMI'
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+      <App />
+  </StrictMode>,
+)
+```
+
+```
+BMI.jsx:
+
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [bmi, setBmi] = useState(null);
+  const [status, setStatus] = useState("");
+
+  const calculateBMI = () => {
+    if (!height || !weight) {
+      alert("Please enter both height and weight");
+      return;
+    }
+
+    const heightInMeters = height / 100;
+    const bmiValue = (
+      weight /
+      (heightInMeters * heightInMeters)
+    ).toFixed(2);
+
+    setBmi(bmiValue);
+
+    if (bmiValue < 18.5) {
+      setStatus("Underweight");
+    } else if (bmiValue < 25) {
+      setStatus("Normal Weight");
+    } else if (bmiValue < 30) {
+      setStatus("Overweight");
+    } else {
+      setStatus("Obese");
+    }
+  };
+
+  const resetFields = () => {
+    setHeight("");
+    setWeight("");
+    setBmi(null);
+    setStatus("");
+  };
+
+  return (
+    <div className="container">
+      <div className="card">
+        <h2>BMI Calculator</h2>
+
+        <input
+          type="number"
+          placeholder="Enter Height (cm)"
+          value={height}
+          onChange={(e) => setHeight(e.target.value)}
+        />
+
+        <input
+          type="number"
+          placeholder="Enter Weight (kg)"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+        />
+
+        <button onClick={calculateBMI}>
+          Calculate BMI
+        </button>
+
+        <button className="reset" onClick={resetFields}>
+          Reset
+        </button>
+
+        {bmi && (
+          <div className="result">
+            <h3>Your BMI: {bmi}</h3>
+            <h3>Status: {status}</h3>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
 
 
 ## OUTPUT
+<img width="1332" height="600" alt="image" src="https://github.com/user-attachments/assets/852e5a28-6259-458b-a576-aa6609c56dbd" />
+
 
 
 
